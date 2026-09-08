@@ -1,0 +1,235 @@
+{
+  "generatedAt": "2026-09-06T15:06:24.956Z",
+  "engine": "Tesseract.js 7.0.0 English LSTM",
+  "labelSource": "Assistant visual transcription; provisional, not verified against practice-site answers. Lowercase comparison is a prototype assumption.",
+  "startupMs": 408,
+  "summary": [
+    {
+      "variant": "original",
+      "count": 10,
+      "matchesProvisionalLabels": 0,
+      "medianMs": 26,
+      "maxMs": 158,
+      "autoCandidatesAt90": 0,
+      "wrongAutoCandidatesAt90": 0
+    },
+    {
+      "variant": "cleaned",
+      "count": 10,
+      "matchesProvisionalLabels": 0,
+      "medianMs": 140.5,
+      "maxMs": 178,
+      "autoCandidatesAt90": 0,
+      "wrongAutoCandidatesAt90": 0
+    }
+  ],
+  "records": [
+    {
+      "id": "original",
+      "variant": "original",
+      "expected": "zawo",
+      "text": "co",
+      "confidence": 22,
+      "elapsedMs": 158,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "original",
+      "variant": "cleaned",
+      "expected": "zawo",
+      "text": "",
+      "confidence": 0,
+      "elapsedMs": 159,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "1",
+      "variant": "original",
+      "expected": "zexo",
+      "text": "fico",
+      "confidence": 12,
+      "elapsedMs": 26,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "1",
+      "variant": "cleaned",
+      "expected": "zexo",
+      "text": "wo",
+      "confidence": 28,
+      "elapsedMs": 178,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "2",
+      "variant": "original",
+      "expected": "mise",
+      "text": "vise",
+      "confidence": 0,
+      "elapsedMs": 29,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "2",
+      "variant": "cleaned",
+      "expected": "mise",
+      "text": "nise",
+      "confidence": 10,
+      "elapsedMs": 165,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "3",
+      "variant": "original",
+      "expected": "becu",
+      "text": "",
+      "confidence": 0,
+      "elapsedMs": 19,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "3",
+      "variant": "cleaned",
+      "expected": "becu",
+      "text": "beew",
+      "confidence": 51,
+      "elapsedMs": 141,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "4",
+      "variant": "original",
+      "expected": "xibu",
+      "text": "xi",
+      "confidence": 0,
+      "elapsedMs": 25,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "4",
+      "variant": "cleaned",
+      "expected": "xibu",
+      "text": "xb",
+      "confidence": 0,
+      "elapsedMs": 135,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "5",
+      "variant": "original",
+      "expected": "wlmi",
+      "text": "umi",
+      "confidence": 0,
+      "elapsedMs": 24,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "5",
+      "variant": "cleaned",
+      "expected": "wlmi",
+      "text": "wii",
+      "confidence": 64,
+      "elapsedMs": 133,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "6",
+      "variant": "original",
+      "expected": "mqtu",
+      "text": "wan",
+      "confidence": 4,
+      "elapsedMs": 26,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "6",
+      "variant": "cleaned",
+      "expected": "mqtu",
+      "text": "mn",
+      "confidence": 37,
+      "elapsedMs": 140,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "7",
+      "variant": "original",
+      "expected": "coko",
+      "text": "cio",
+      "confidence": 32,
+      "elapsedMs": 26,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "7",
+      "variant": "cleaned",
+      "expected": "coko",
+      "text": "olo",
+      "confidence": 39,
+      "elapsedMs": 145,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "8",
+      "variant": "original",
+      "expected": "rumi",
+      "text": "uni",
+      "confidence": 14,
+      "elapsedMs": 26,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "8",
+      "variant": "cleaned",
+      "expected": "rumi",
+      "text": "nk",
+      "confidence": 43,
+      "elapsedMs": 135,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "9",
+      "variant": "original",
+      "expected": "ajed",
+      "text": "gjed",
+      "confidence": 0,
+      "elapsedMs": 27,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    },
+    {
+      "id": "9",
+      "variant": "cleaned",
+      "expected": "ajed",
+      "text": "gjed",
+      "confidence": 0,
+      "elapsedMs": 124,
+      "matchesProvisionalLabel": false,
+      "experimentalAutoCandidate": false
+    }
+  ],
+  "limitations": [
+    "Ten selected practice images; no held-out or live-site evaluation.",
+    "Labels are provisional visual readings, not authoritative answers.",
+    "Confidence is an OCR score, not a calibrated probability. Threshold 90 is illustrative.",
+    "Timings exclude browser capture, submission, and server response.",
+    "No browser integration or ticket purchasing is implemented."
+  ]
+}

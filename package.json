@@ -1,0 +1,9 @@
+{
+  "name": "ticket-assistant-feasibility-prototype",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "test": "node --test tests/*.test.cjs",
+    "benchmark": "node benchmark.cjs"
+  }
+}

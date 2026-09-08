@@ -1,0 +1,15 @@
+{
+  "labelSource": "Assistant visual transcription; provisional, not verified against practice-site answers. Lowercase comparison is a prototype assumption.",
+  "samples": [
+    { "id": "original", "file": "codex-clipboard-d7100edf-adf7-468c-abf7-fadbe8cf2827.png", "expected": "zawo" },
+    { "id": "1", "file": "codex-clipboard-3963e9a7-949e-40ab-b693-e12ed302c201.png", "expected": "zexo" },
+    { "id": "2", "file": "codex-clipboard-2d23ed4b-d447-4a01-8705-eb42ee2a7e3f.png", "expected": "mise" },
+    { "id": "3", "file": "codex-clipboard-6057cbed-9b15-4124-aa26-3085997b2b70.png", "expected": "becu" },
+    { "id": "4", "file": "codex-clipboard-5a4357ed-b3c6-4780-8796-f6e56c6f4f46.png", "expected": "xibu", "note": "Overlapping second and third letters; label needs confirmation." },
+    { "id": "5", "file": "codex-clipboard-dd8474df-9332-49b9-83a2-e57bfeb1e53b.png", "expected": "wlmi", "note": "Second letter visually ambiguous; label needs confirmation." },
+    { "id": "6", "file": "codex-clipboard-5369e212-a7c7-4f84-894b-aa888a6aee5a.png", "expected": "mqtu" },
+    { "id": "7", "file": "codex-clipboard-820c1555-8cb2-456e-99a0-c522a9ceb67a.png", "expected": "coko" },
+    { "id": "8", "file": "codex-clipboard-ff86027e-8cc9-41d9-aeda-677ec3252fb3.png", "expected": "rumi" },
+    { "id": "9", "file": "codex-clipboard-0b9650f5-c662-4139-be56-c4cbce238bf8.png", "expected": "ajed" }
+  ]
+}
