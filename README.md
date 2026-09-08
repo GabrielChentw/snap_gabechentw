@@ -1,65 +1,65 @@
-# Ticket assistant: local feasibility prototype
+# 購票助手：本機可行性驗證原型
 
-This is an OCR experiment and a tested verification-handoff state model. It is not a Chrome extension or a working ticket buyer. It has not accessed the practice website, a logged-in tixCraft session, or any live checkout.
+這個專案包含 OCR（光學字元辨識）實驗，以及經過測試的驗證碼自動辨識與手動接手狀態模型。目前尚未實作 Chrome 擴充功能或完整購票機器人，也尚未連線至練習網站、已登入的拓元（tixCraft）帳號或實際結帳頁面。
 
-## Current findings
+## 目前測試結果
 
-The benchmark processed the ten supplied practice screenshots with Tesseract.js 7.0.0, English LSTM, single-word mode. Comparison labels are the assistant's provisional visual readings, not the practice site's confirmed answers. See `samples.json`; samples 4 and 5 are particularly ambiguous. Lowercase comparison is an experiment assumption and has not been established for tixCraft.
+本次測試使用 Tesseract.js 7.0.0 的英文 LSTM 模型與單字辨識模式，處理使用者提供的 10 張練習截圖。比對答案由助手依圖片暫時判讀，並非練習網站確認過的正確答案，詳見 `samples.json`；其中第 4、5 張的字元尤其容易混淆。統一轉為小寫後比對是本實驗的假設，尚未確認拓元是否適用相同規則。
 
-| Input | Whole-code matches against provisional labels | Median processing time | Longest processing time |
+| 輸入方式 | 整組驗證碼與暫定答案完全相符的數量 | 處理時間中位數 | 最長處理時間 |
 | --- | --- | --- | --- |
-| Original screenshot | 0 / 10 | 26 ms | 158 ms |
-| Cropped, enlarged, black text on white | 0 / 10 | 140.5 ms | 178 ms |
+| 原始截圖 | 0 / 10 | 26 ms | 158 ms |
+| 裁切、放大並轉為白底黑字 | 0 / 10 | 140.5 ms | 178 ms |
 
-These are exploratory results on the same small sample set used during development, not an independent accuracy estimate. Processing times exclude browser capture, form submission, and server response. Cached worker initialization took 408 ms in the final run; the first run also downloaded the English model. Screenshots are processed locally, not uploaded to an OCR service.
+這些結果來自開發過程使用的同一組少量樣本，僅供初步探索，不能視為獨立的辨識準確率評估。處理時間不包含瀏覽器擷取圖片、送出表單及伺服器回應。最後一次測試使用已快取的模型，辨識工作執行緒初始化耗時 408 ms；首次執行時另有下載英文模型。所有截圖皆在本機處理，沒有上傳至 OCR 服務。
 
-No result met the illustrative confidence score of 90 plus the four-letter format check. The current baseline would fall back to manual entry for every sample. It should not be enabled for automatic live submission. The score is not a probability of being correct, and lowering the threshold is not evidence of improved recognition. Full measurements are in `results.json`.
+沒有任何結果同時通過實驗用的信心分數門檻 90，以及四個英文字母的格式檢查。因此，目前的基準方案會讓所有樣本都轉為手動輸入，不適合用於實際購票的自動送出。信心分數不代表答案正確的機率，降低門檻也不代表辨識能力提升。完整測量結果記錄於 `results.json`。
 
-## Handling a changed verification code
+## 驗證碼更新時的處理方式
 
-Each image generation gets a new revision, even if its URL is unchanged. OCR callbacks and manual input carry the revision they belong to. Only results for the current loaded image may be used.
+每次產生新圖片時，都會分配新的版本編號，即使圖片網址沒有改變也一樣。OCR 回傳結果與手動輸入都會標記其所屬版本，只有對應目前已載入圖片的結果才能使用。
 
-After a rejected submission:
+當送出的驗證碼遭到拒絕時：
 
-1. Block input and further submissions while the rejection and any refresh settle.
-2. Discard the submitted value and old recognition results.
-3. Observe the actual post-response image and wait for it to load and decode.
-4. Explicitly acknowledge the current revision, then enable manual entry.
-5. Keep automatic recognition disabled during manual entry. If the image changes again, clear stale input and wait for the new image.
+1. 暫停輸入與再次送出，等待錯誤回應及相關圖片更新完成。
+2. 清除已送出的內容與舊辨識結果。
+3. 檢查回應後實際顯示的圖片，等待載入與解碼完成。
+4. 明確確認目前圖片版本，再開放手動輸入。
+5. 手動輸入期間維持自動辨識停用；若圖片再次改變，清除過期輸入並等待新圖片。
 
-The server might retain the same code after rejection. That also requires a fresh observation; it must not deadlock waiting for a different URL or different pixels. `settleAfterRejection` is an explicit adapter contract, not proof that a browser image has settled. A future browser adapter must detect DOM/image replacements, relevant loading events, and form responses, and check the current revision immediately before submitting. Arbitrary sleeps are insufficient. Network errors or unknown submission outcomes must pause for inspection, not be treated as a wrong code or sold-out date.
+伺服器也可能在拒絕後保留同一組驗證碼。此時仍須重新檢查頁面，不能一直等待不同的網址或像素而卡住。`settleAfterRejection` 是提供給網站介接模組的明確呼叫約定，本身不代表瀏覽器圖片已更新完成。未來的瀏覽器介接模組必須偵測 DOM／圖片替換、相關載入事件及表單回應，並在送出前再次確認目前版本。只等待固定秒數並不足夠。若發生網路錯誤或無法確認送出結果，應暫停並檢查，不可直接當成驗證碼錯誤或該場次售完。
 
-`verification-session.cjs` models these transitions without network calls. Eight tests cover stale OCR, manual ownership, both refresh/response event orders, retained images, duplicate submission, malformed input, and refresh during typing. Two more tests cover preprocessing opacity and foreground/background preservation. All ten tests passed in the final run. Browser integration, server behavior, successful-checkout detection, OCR timeouts, and alert UI remain unimplemented and untested.
+`verification-session.cjs` 以不發送網路請求的方式模擬上述狀態轉換。8 項測試涵蓋過期 OCR 結果、手動輸入控制權、圖片更新與錯誤回應的不同先後順序、保留原圖、重複送出、格式錯誤及輸入期間圖片更新。另外 2 項測試檢查圖片前處理後是否維持不透明，以及文字與背景是否正確保留。最後一次執行的 10 項測試全部通過。瀏覽器整合、伺服器實際行為、成功進入結帳頁面的偵測、OCR 逾時處理及提醒介面，目前仍未實作或測試。
 
-## Intended later booking preferences
+## 後續預計使用的購票偏好
 
-- First date: 2027-05-01; fallback: 2027-05-02.
-- Two tickets; standing area (搖滾站區); best available assignment.
-- Change date only on confirmed unavailability of matching tickets, not a loading, network, or verification failure.
-- Exact standing sections and maximum price remain to be decided.
-- Stop and notify the user when reservation confirmation and the payment/delivery page are observed; the user completes payment.
+- 優先場次：2027-05-01（六）；備選場次：2027-05-02（日）。
+- 票數：2 張；區域：搖滾站區；配位方式：電腦配位（Best Available）。
+- 只有確認沒有符合條件的票券時才切換日期；載入、網路或驗證失敗不會觸發日期切換。
+- 搖滾站區的確切分區與票價上限尚待決定。
+- 確認票券已暫時保留，且付款／配送方式頁面已顯示後，停止自動操作並通知使用者，由使用者完成付款。
 
-These preferences are recorded for later implementation; this prototype does not implement booking.
+以上偏好僅記錄供後續實作使用，目前原型尚未提供購票功能。
 
-## Files and rerunning
+## 檔案說明與重新執行
 
-- `samples/`: copies of the exact supplied screenshots; original uploads are preserved.
-- `samples.json`: editable provisional labels and sample list.
-- `benchmark.cjs`: local diagnostic and basic preprocessing.
-- `verification-session.cjs`: experimental handoff state model.
-- `tests/`: local behavior tests.
-- `results.json`: final run's measured outputs and limitations.
-- `preprocessing-diagnostic.png`: corrected processed version of sample 1 for inspection.
+- `samples/`：使用者提供的截圖副本，原始上傳檔案保持不變。
+- `samples.json`：可編輯的暫定答案與樣本清單。
+- `benchmark.cjs`：本機辨識測試與基本圖片前處理。
+- `verification-session.cjs`：自動辨識轉為手動接手的實驗性狀態模型。
+- `tests/`：本機行為測試。
+- `results.json`：最後一次測試的測量結果與限制說明。
+- `preprocessing-diagnostic.png`：修正前處理後的第 1 張樣本，供檢查使用。
 
-From this directory:
+在本專案目錄執行：
 
 ```powershell
 node --test tests/*.test.cjs
 node benchmark.cjs
 ```
 
-The benchmark uses bundled `sharp` and `tesseract.js` packages. Set `TICKET_NODE_MODULES` to another package directory if moving it to a different environment. Its language-model cache is local to `.ocr-cache/`. Results are regenerated by each benchmark run. No online service subscription or package installation was used.
+辨識測試使用執行環境內附的 `sharp` 與 `tesseract.js` 套件。若移至其他環境，可透過 `TICKET_NODE_MODULES` 指定套件所在目錄。語言模型快取存放於本機的 `.ocr-cache/`。每次執行辨識測試都會重新產生結果。本次實驗未訂閱線上服務，也未額外安裝套件。
 
-## Next decision
+## 下一步評估
 
-The baseline does not establish that automatic recognition is practical for this code style. A next experiment could compare a different recognizer using authoritative labels and a separate unseen evaluation set. Keep manual entry available throughout. Ten screenshots cannot support a claim about live-sale reliability.
+目前的基準結果尚不足以證明自動辨識適用於這種驗證碼樣式。下一輪實驗可採用經確認的正確答案，以及未參與開發調整的獨立樣本，比較其他辨識器。整個流程都應保留手動輸入的接手機制。僅憑 10 張截圖，無法判斷實際開賣時的可靠性。
